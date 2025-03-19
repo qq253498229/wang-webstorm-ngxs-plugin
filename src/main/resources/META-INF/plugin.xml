@@ -5,4 +5,11 @@
     <vendor>OldWang</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <actions>
+        <group id="JumpStateGroup">
+            <action id="JumpToState" class="com.example.JumpToStateAction" text="Jump To State"/>
+            <separator/>
+            <add-to-group group-id="GoToMenu" anchor="last"/>
+        </group>
+    </actions>
 </idea-plugin>
