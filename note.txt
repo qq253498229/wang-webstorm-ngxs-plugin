@@ -1,0 +1,6 @@
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/app-client.jar!/idea/PlatformActions.xml:126
+
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/product.jar!/META-INF/plugin.xml:4395
+
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/app-client.jar!/messages/ActionsBundle.properties:593
+
