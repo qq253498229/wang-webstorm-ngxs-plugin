@@ -1,15 +1,13 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<!--        xmlns:xi="http://www.w3.org/2001/XInclude"-->
 <idea-plugin>
     <id>com.example</id>
     <name>My Test Webstorm</name>
     <vendor>OldWang</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <actions>
-        <group id="JumpStateGroup">
-            <action id="JumpToState" class="com.example.JumpToStateAction" text="Jump To State"/>
-            <separator/>
-            <add-to-group group-id="GoToMenu" anchor="last"/>
-        </group>
-    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <gotoDeclarationHandler implementation="com.example.NgxsActionGotoDeclarationHandler"/>
+    </extensions>
+
 </idea-plugin>
