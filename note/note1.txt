@@ -1,0 +1,30 @@
+
+angular-src/src/app/pages/document/document.component.ts:47
+/Users/wangbin/src/own/wang-neu-client
+
+
+IntelliJ IDEA 2024.3.4 (Ultimate Edition)
+Build #IU-243.25659.39, built on February 27, 2025
+Licensed to bin wang
+Subscription is active until July 6, 2025.
+Runtime version: 21.0.6+8-b631.39 x86_64 (JCEF 122.1.9)
+VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+Toolkit: sun.lwawt.macosx.LWCToolkit
+macOS 13.7.3
+GC: G1 Young Generation, G1 Concurrent GC, G1 Old Generation
+Memory: 8192M
+Cores: 8
+Registry:
+  debugger.new.tool.window.layout=true
+  vcs.log.index.enable=true
+  documentation.show.toolbar=true
+  ide.experimental.ui=true
+Non-Bundled Plugins:
+  DevKit (243.24978.46)
+  String Manipulation (9.15.0)
+  org.asciidoctor.intellij.asciidoc (0.43.6)
+  com.tianlei.plugin.mybatis (2.2.2)
+Kotlin: 243.25659.39-IJ
+
+
+这里语法不对，你可以参考一下这个网址，里面有具体的配置项https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html ：

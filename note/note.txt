@@ -1,0 +1,172 @@
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/app-client.jar!/idea/PlatformActions.xml:126
+
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/product.jar!/META-INF/plugin.xml:4395
+
+/Users/wangbin/Applications/WebStorm.app/Contents/lib/app-client.jar!/messages/ActionsBundle.properties:593
+
+system.state.ts:
+
+export interface SystemStateModel {
+  isCollapsed: boolean;
+  loading: boolean;
+}
+
+@State<SystemStateModel>({
+  name: 'system',
+  defaults: {
+    isCollapsed: false,
+    loading: false,
+  },
+})
+@Injectable({
+  providedIn: 'root',
+})
+export class SystemState implements NgxsOnInit {
+  @Action(SystemAction.Loading)
+  Loading(ctx: StateContext<SystemStateModel>) {
+    if (ctx.getState().loading) {
+      return;
+    }
+    ctx.patchState({loading: true});
+  }
+
+}
+
+system.action.ts:
+
+export namespace SystemAction {
+  export class Loading {
+    static readonly type = `[system] 加载中`;
+  }
+}
+
+xxxx.component.ts:
+
+  testMethod() {
+    this.store.dispatch(new SystemAction.Loading());
+  }
+
+com.example.NgxsActionGotoDeclarationHandler:
+
+public class NgxsActionGotoDeclarationHandler implements GotoDeclarationHandler {
+    @Override
+    public PsiElement @Nullable [] getGotoDeclarationTargets(
+            @Nullable PsiElement psiElement, int i, Editor editor) {
+        if (psiElement == null) {
+            return null;
+        }
+        // 判断点击的文本是否为 Loading（可根据实际情况细化判断逻辑，比如检查引用类型、上下文等）
+        if (!"Loading".equals(psiElement.getText())) {
+            return null;
+        }
+        Project project = psiElement.getProject();
+        PsiElement targetAction = findTargetElement(project, "system.action.ts", "export class Loading");
+        PsiElement targetState = findTargetElement(project, "system.state.ts", "@Action(SystemAction.Loading)");
+
+        if (targetAction == null && targetState == null) {
+            return null;
+        }
+        if (targetAction != null && targetState != null) {
+            return new PsiElement[]{
+                    new CustomNavigateItem(targetAction, "Action"),
+                    new CustomNavigateItem(targetState, "Implement"),
+            };
+        } else if (targetAction != null) {
+            return new PsiElement[]{new CustomNavigateItem(targetAction, "Action")};
+        } else {
+            return new PsiElement[]{new CustomNavigateItem(targetState, "Implement")};
+        }
+    }
+
+
+    /**
+     * 根据文件名和关键字查找目标 PsiElement
+     * 实际实现中可以通过 FileBasedIndex 或者直接遍历项目文件来查找目标文件，然后利用 PsiFile 查找关键字位置
+     */
+    @Nullable
+    private PsiElement findTargetElement(Project project, String fileName, String searchText) {
+        // 这里只是示例逻辑，实际实现需要利用 PsiManager、FilenameIndex 等 API 获取对应文件，然后遍历查找匹配的 PsiElement
+        PsiFile[] files = FilenameIndex.getFilesByName(project, fileName, GlobalSearchScope.projectScope(project));
+        for (PsiFile file : files) {
+            // 简单使用文本查找（实际建议基于 PSI 结构遍历查找更准确）
+            String fileText = file.getText();
+            int index = fileText.indexOf(searchText);
+            if (index >= 0) {
+                return file.findElementAt(index);
+            }
+        }
+        return null;
+    }
+}
+
+com.example.CustomNavigateItem:
+
+public class CustomNavigateItem extends FakePsiElement implements NavigationItem {
+    private final PsiElement targetElement;
+    private final String customName;
+    private final Project project;
+
+    public CustomNavigateItem(@NotNull PsiElement targetElement, @NotNull String customName) {
+        this.targetElement = targetElement;
+        this.customName = customName;
+        this.project = targetElement.getProject();
+    }
+
+    @Override
+    public @Nullable @NlsSafe String getName() {
+        return customName;
+    }
+
+    @Override
+    public @Nullable ItemPresentation getPresentation() {
+        String location = targetElement.getContainingFile() != null
+                ? targetElement.getContainingFile().getName()
+                : "";
+        return new PresentationData(customName, location, null, null);
+    }
+
+    @Override
+    public void navigate(boolean requestFocus) {
+        if (targetElement instanceof Navigatable) {
+            ((Navigatable) targetElement).navigate(requestFocus);
+        } else {
+            PsiNavigationSupport.getInstance().createNavigatable(project, targetElement.getContainingFile().getVirtualFile(), targetElement.getTextOffset()).navigate(requestFocus);
+        }
+    }
+
+    @Override
+    public boolean canNavigate() {
+        return targetElement instanceof Navigatable && ((Navigatable) targetElement).canNavigate();
+    }
+
+    @Override
+    public boolean canNavigateToSource() {
+        return canNavigate();
+    }
+
+    @Override
+    public PsiElement getParent() {
+        return targetElement.getParent();
+    }
+}
+
+plugin.xml:
+
+    <extensions defaultExtensionNs="com.intellij">
+        <gotoDeclarationHandler implementation="com.example.NgxsActionGotoDeclarationHandler"/>
+    </extensions>
+
+我想开发一个webstorm插件，上面是部分代码示例。
+
+这个插件是对webstorm内置功能进行拓展，在command点击xxxx.component.ts里面的Loading的时候，原来会跳转到system.action.ts里的Loading，现在多加一个跳转位置，即system.state.ts中的@Action(SystemAction.Loading)这一行。
+
+现在主要功能已经实现了，但是Action是固定写死的，我想改成动态的方式，在点击之后先判断是否有@Action(SystemAction.Loading)这样的实现state。如果没有则忽略掉，仍然走原来的逻辑；如果有，则动态的添加Action和State的跳转。
+
+
+这个插件是对webstorm内置功能进行拓展，在command点击xxxx.component.ts里面的Loading的时候，原来会跳转到system.action.ts里的Loading，现在多加一个跳转位置，即system.state.ts中的@Action(SystemAction.Loading)这一行。
+
+现在主要功能已经实现了，但是性能不行，因为目前是每次点击都要扫描所有的文件，并检测其中包不包含匹配文字。
+有没有什么办法，在打开项目或者是创建文件的时候就扫描，将Action和State进行关联，以后点击的时候就不用扫描全部文件了。
+
+
+我想知道在按command点击xxxx.component.ts文件中Loading的时候，怎么能搜索到system.action.ts文件中的Loading类
