@@ -11,70 +11,14 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
-//        snapshots()
     }
 }
 
 dependencies {
-//    testImplementation platform('org.junit:junit-bom:5.10.0')
-//    testImplementation 'org.junit.jupiter:junit-jupiter'
-//    implementation 'com.intellij:intellij-core:2023.2'
-//    implementation 'com.intellij:psi-impl:2023.2'
-//    implementation('com.jetbrains.intellij.javascript:javascript-psi-impl')
-//    runtimeOnly 'com.jetbrains.intellij.javascript:javascript-psi-impl:243.25659.59'
-
-//    group: 'com.jetbrains.intellij.javascript', name: 'javascript-psi-impl', version: '243.25659.59'
-
     intellijPlatform {
-//        local '/Users/wangbin/Applications/WebStorm.app'
-//        bundledPlugin("JavaScript", "org.intellij.intelliLang")
         bundledPlugin("JavaScript")
-//        instrumentationTools()
-//        pluginVerifier()
-//        webstorm("251.22821.57")
-//        webstorm("243.26053.12")
-//        webstorm("243.26053.12", useInstaller = false)
-//        webstorm("2024.3.5", useInstaller = false)
         webstorm("2024.3.5")
-//        pluginVerifier()
     }
-}
-
-intellijPlatform {
-    pluginVerification {
-        ides {
-            recommended()
-        }
-    }
-}
-//intellijPlatform {
-//    pluginConfiguration {
-//        version = "1.4.251"
-//    }
-//    patchPluginXml {
-//        sinceBuild = "251.0"
-//        untilBuild = "251.*"
-//    }
-//}
-//intellijPlatform {
-//    instrumentCode = false
-//    pluginConfiguration {
-//        ideaVersion {
-//            untilBuild = provider { null }
-//        }
-//    }
-//}
-project.afterEvaluate {
-    prepareSandbox.doLast {
-        def libraries = "$it.destinationDir/import-cost/lib/"
-        copy {
-            from "$project.projectDir/javascript"
-            into libraries
-        }
-    }
-}
-test {
-    useJUnitPlatform()
 }
 
 
