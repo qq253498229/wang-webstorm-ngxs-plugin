@@ -7,20 +7,11 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
-    <depends>com.intellij.modules.javascript</depends>
-    <!--    <depends>com.intellij.modules.lang</depends>-->
-    <!--    <depends>com.intellij.gradle</depends>-->
-    <!--    <depends>com.intellij.modules.ultimate</depends>-->
-    <!--    <depends>com.intellij.modules.xml</depends>-->
-    <!--    <depends>com.intellij.modules.json</depends>-->
-    <!--    <dependencies>-->
-    <!--        <plugin id="com.intellij.modules.platform"/>-->
-    <!--        <plugin id="JavaScript"/>-->
-    <!--    </dependencies>-->
-
-    <!--        <extensions defaultExtensionNs="JavaScript">-->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileBasedIndex implementation="com.example.ngxs.jump.JumpStateIndexer"/>
+    </extensions>
     <actions>
-        <action id="CustomJump" class="com.example.CustomJump" text="CustomJump" description="CustomJump">
+        <action id="CustomJump" class="com.example.ngxs.jump.JumpAction" text="CustomJump" description="CustomJump">
             <add-to-group group-id="GoToCodeGroup" anchor="first"/>
             <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
         </action>
