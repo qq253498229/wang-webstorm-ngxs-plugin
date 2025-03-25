@@ -1,16 +1,19 @@
 <idea-plugin>
-    <id>com.example</id>
-    <name>My Test Webstorm</name>
-    <vendor>OldWang</vendor>
+    <id>cn.codeforfun</id>
+    <name>Wang Ngxs</name>
+    <vendor>wangbin</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
     <extensions defaultExtensionNs="com.intellij">
         <fileBasedIndex implementation="com.example.ngxs.jump.JumpStateIndexer"/>
     </extensions>
-    <actions>
-        <action id="CustomJump" class="com.example.ngxs.jump.JumpAction" text="CustomJump" description="CustomJump">
-            <add-to-group group-id="GoToCodeGroup" anchor="first"/>
+    <actions resource-bundle="messages.ActionsBundle">
+        <action id="jumpToNgxsState" class="com.example.ngxs.jump.JumpAction">
+            <add-to-group group-id="GoToCodeGroup" anchor="after" relative-to-action="GotoRelated"/>
+            <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
+            <override-text place="MainMenu"/>
+            <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             <keyboard-shortcut first-keystroke="control shift J" keymap="$default"/>
         </action>
     </actions>
