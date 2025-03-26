@@ -3,6 +3,10 @@
     <name>Wang Ngxs</name>
     <vendor>wangbin</vendor>
 
+    <description><![CDATA[
+        这是个人开发的webstorm插件，目的是提高ngxs开发体验，吧啦吧啦zsbd
+    ]]></description>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
     <extensions defaultExtensionNs="com.intellij">
