@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>cn.codeforfun</id>
+    <id>cn.codeforfun.ngxs</id>
     <name>Wang Ngxs</name>
     <vendor>wangbin</vendor>
 
