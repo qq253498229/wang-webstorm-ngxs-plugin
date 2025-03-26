@@ -1,6 +1,9 @@
 package com.example.ngxs.jump;
 
+import com.example.ngxs.tools.JsResolver;
+import com.example.ngxs.tools.NgxsActionImpl;
 import com.intellij.lang.javascript.TypeScriptFileType;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
@@ -10,9 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class JumpStateIndexer extends FileBasedIndexExtension<String, JumpDataHandler> {
     public static final ID<String, JumpDataHandler> INDEXER_JUMP = ID.create("com.example.indexes.INDEX_JUMP_STATE");
@@ -23,24 +25,28 @@ public class JumpStateIndexer extends FileBasedIndexExtension<String, JumpDataHa
         return INDEXER_JUMP;
     }
 
+
     @Override
     public @NotNull DataIndexer<String, JumpDataHandler, FileContent> getIndexer() {
         return fileContent -> {
             PsiFile psiFile = fileContent.getPsiFile();
-            String content = new String(fileContent.getContent());
             final Map<String, JumpDataHandler> r = new HashMap<>();
-            Pattern pattern = Pattern.compile("@Action\\((.*)\\)");
-            Matcher matcher = pattern.matcher(content);
-            boolean hasMatch = matcher.find();
-            if (hasMatch) {
-                String filename = psiFile.getName();
-                String path = psiFile.getVirtualFile().getPath();
-                do {
-                    int start = matcher.start();
-                    String key = matcher.group(1).trim();
-                    JumpDataHandler handler = new JumpDataHandler(start, key, path, filename, psiFile);
+            // js解析器
+            JsResolver resolver = new JsResolver(psiFile);
+            if (!resolver.isNgxsState()) return r;
+            List<NgxsActionImpl> allNgxsActionImpl = resolver.getAllNgxsActionImpl();
+            if (!allNgxsActionImpl.isEmpty()) {
+                Project project = psiFile.getProject();
+                String projectName = project.getName();
+                String projectPath = project.getBasePath();
+                for (NgxsActionImpl impl : allNgxsActionImpl) {
+                    int position = impl.position;
+                    String key = impl.key;
+                    String path = psiFile.getVirtualFile().getPath();
+                    String filename = psiFile.getName();
+                    JumpDataHandler handler = new JumpDataHandler(position, key, path, filename, psiFile, project, projectName, projectPath);
                     r.put(key, handler);
-                } while (matcher.find());
+                }
             }
             return r;
         };

@@ -6,9 +6,10 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
     <extensions defaultExtensionNs="com.intellij">
+        <fileType name="TypeScript" language="TypeScript" patterns="*state.ts;*action.ts"/>
         <fileBasedIndex implementation="com.example.ngxs.jump.JumpStateIndexer"/>
     </extensions>
-    <actions resource-bundle="messages.ActionsBundle">
+    <actions resource-bundle="messages.NgxsBundle">
         <action id="jumpToNgxsState" class="com.example.ngxs.jump.JumpAction">
             <add-to-group group-id="GoToCodeGroup" anchor="after" relative-to-action="GotoRelated"/>
             <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
