@@ -4,7 +4,7 @@
     <vendor>wangbin</vendor>
 
     <description><![CDATA[
-        这是个人开发的webstorm插件，目的是提高ngxs开发体验，吧啦吧啦zsbdzsbdzsbd
+        This is a personal webstorm plugin designed to improve the ngxs development experience.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
