@@ -11,6 +11,8 @@
 
 ![](./src/test/resources/img2.png)
 
+![](./src/test/resources/img3.png)
+
 ## 使用示例
 
 以一个测试项目为例，下面三个文件分别演示的是Action的调用位置、Action类的所处位置、Action的实现state位置。
